@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-4 mr-2">
+            <div class="card">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for img in host.house.houseimages_set.all %}
+                        <div class="carousel-item  {% if host.house.houseimages_set.all.0.id == img.id %} active {% endif %}">
+                            <img class="d-block w-100" style="height:300px" src="/media/{{img.image}}"
+                                 alt="First slide">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button"
+                       data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button"
+                       data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    </a>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">{{host.house.description}}</h5>
+                    <p class="card-text">Адрес: {{host.house.address}}</p>
+                    <p class="card-text">Количество гостей: {{host.house.guestCount}}</p>
+                </div>
+            </div>
+            {% if host.id == user.id %}
+            <a href="{% url 'editHouse' %}" class="btn btn-primary">Редактировать</a>
+            {% endif %}
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <img class="card-img-top" src="/media/{{host.avatar}}" height="300px" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{host.first_name}} {{host.last_name}} {{host.age}}</h5>
+                    <p class="card-text">О себе: {{host.about}}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Страна: {{host.country}}</li>
+                    <li class="list-group-item">Город: {{host.city}}</li>
+                    <li class="list-group-item">
+                        <div class="d-flex">
+                            {% if host.vk %}
+                            <a href="{{host.vk}}">
+                                <img class="card-img-top" width="50px" height="50px" src="/media/logo/vk.png"
+                                     alt="Card image cap">
+                            </a>
+                            {% else %}
+                            <a>
+                                <img class="card-img-top" width="50px" height="50px" src="/media/logo/vk-black.png"
+                                     alt="Card image cap">
+                            </a>
+                            {% endif %}
+                            {% if host.telegram %}
+                            <a href="{{host.telegram}}">
+                                <img class="card-img-top" width="50px" height="50px" src="/media/logo/tg.png"
+                                     alt="Card image cap">
+                            </a>
+                            {% else %}
+                            <a>
+                                <img class="card-img-top" width="50px" height="50px" src="/media/logo/tg-black.png"
+                                     alt="Card image cap">
+                            </a>
+                            {% endif %}
+                        </div>
+
+
+                    </li>
+                </ul>
+                {% if host.id != user.id %}
+                <div class="card-body">
+                    <form method="post" action="{% url 'firstMessage' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{host.id}}" name="receiver">
+                        <textarea rows="3" class="d-block from-control" style="width:100%" name="content"></textarea>
+                        <button type="submit" class="btn btn-primary d-block mt-2">Отправить</button>
+                    </form>
+<!--                    <a href="#" class="card-link">Написать сообщение</a>-->
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

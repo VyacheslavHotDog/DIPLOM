@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row d-flex justify-content-center ml-0 mr-0">
+    <div class="col-4 ">
+        <h4> Введите информацию о вашем жилье</h4>
+        <form action="{% url 'addHouse' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <label>Адрес:</label>
+                <input type="text" name="address" maxlength="150" autofocus="" class="form-control" required="">
+                <label>Описание:</label>
+                <textarea name="description" rows="3" class="form-control" required=""></textarea>
+                <label>Количество принимаемых гостей:</label>
+                <input type="number" max="10" name="guestCount" maxlength="150" autofocus="" class="form-control"
+                       required="">
+                <label>Добавьте изображения:</label>
+                <input type="file" name="img0" accept="image/*" required="" class="form-control">
+                <input type="file" name="img1" accept="image/*" class="form-control mt-3">
+                <input type="file" name="img2" accept="image/*" class="form-control mt-3">
+            </div>
+            <button type="submit" class="btn btn-primary">ADD</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

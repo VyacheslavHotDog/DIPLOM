@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container" style="min-height:80vh">
+    <div class="row justify-content-center pt-5">
+        <div class="col-sm-7 col-12">
+            <img width="100%" src="/media/images/login.jpg">
+        </div>
+        <div class="col-sm-5 col-12 d-flex align-items-center">
+            <form method="post">
+                {% csrf_token %}
+                <table>
+                    {{ form }}
+                    <th></th>
+                        <td colspan="2" class="d-flex justify-content-center mt-1"><input class="btn btn-success" type="submit" value="Войти"></td>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

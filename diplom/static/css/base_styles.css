@@ -1,0 +1,16 @@
+.base{
+    background-image: url('/media/logo/background.jpg');
+    background-size: cover;
+    height: 100%;
+}
+.main-text, .main-header{
+color:white;
+}
+.go-back{
+position:absolute;
+top: 56px;
+left: 0px;
+}
+footer{
+height:10vh;
+}

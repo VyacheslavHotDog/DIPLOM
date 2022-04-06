@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class=" d-flex justify-content-center">
+    <div class="col-4 ">
+        <h4> Введите информацию о вашем жилье</h4>
+        <form action="{% url 'editHouse' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <label>Адрес:</label>
+                <input type="text" value="{{user.house.address}}" name="address" maxlength="150" autofocus=""
+                       class="form-control" required="">
+                <label>Описание:</label>
+                <textarea name="description" rows="3" class="form-control"
+                          required="">{{user.house.description}}</textarea>
+                <label>Количество принимаемых гостей:</label>
+                <input type="number" value="{{user.house.guestCount}}" max="10" name="guestCount" maxlength="150"
+                       autofocus="" class="form-control"
+                       required="">
+                <label>Добавьте изображения:</label>
+                <input type="file" name="img0" accept="image/*" class="form-control">
+                <input type="file" name="img1" accept="image/*" class="form-control mt-3">
+                <input type="file" name="img2" accept="image/*" class="form-control mt-3">
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Сохранить</button>
+        </form>
+    </div>
+    <div class="col-3 p-2 m-2">
+        {% for img in user.house.houseimages_set.all %}
+        <form action="{% url 'deleteHouseImage' %}" method="post" class="d-flex">
+            {% csrf_token %}
+            <input type="hidden" name="imageId" value="{{img.id}}">
+            <img class=" w-100" style="height:250px" src="/media/{{img.image}}"
+                 alt="First slide">
+            <button type="submit" style="border:none; background-color: white">
+                <svg width="1.5em" height="1.5em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
+                    <path fill-rule="evenodd"
+                          d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
+                </svg>
+            </button>
+        </form>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

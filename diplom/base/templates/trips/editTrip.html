@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
+        <div class="col-6 p-2">
+            <h4>Редактирование поездки</h4>
+    </div>
+</div>
+    <div class="col-4">
+    <form action="{% url 'editTrip' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="id_header">Заголовок:</label>
+        <input type="text" value="{{user.trip.header}}" name="header" maxlength="100" class="form-control pb-0" required="" id="id_header">
+        <label for="id_description">Описание:</label>
+        <input type="text" value="{{user.trip.description}}" name="description" maxlength="1000" class="form-control pb-0" required=""
+               id="id_description">
+        <label for="id_dateBegin">Дата начала поездки:</label>
+        <input type="date" value="{{user.trip.dateBegin|date:'Y-m-d'}}"  name="dateBegin" class="form-control pb-0" required="" id="id_dateBegin">
+        <label for="id_dateEnd">Дата окончания поездки:</label>
+        <input type="date" value="{{user.trip.dateEnd|date:'Y-m-d'}}" name="dateEnd" class="form-control pb-0" required="" id="id_dateEnd">
+        <label for="id_country">Страна:</label>
+        <input type="text" value="{{user.trip.country}}" name="country" maxlength="100" class="form-control pb-0" required="" id="id_country">
+        <label>Категория:</label>
+        <select class="form-select" name="category" aria-label="Пример выбора по умолчанию" required>
+            <option value="">Откройте это меню выбора</option>
+            <option value="1" {% if user.trip.category == 1 %} selected {% endif %}>Пляжный отдых</option>
+            <option value="2" {% if user.trip.category == 2 %} selected {% endif %}>Экскурсии</option>
+            <option value="3" {% if user.trip.category == 3 %} selected {% endif %}>Походы и экспедиции</option>
+            <option value="4" {% if user.trip.category == 4 %} selected {% endif %}>Круизы</option>
+        </select>
+        <label for="id_logo">Заставка:</label>
+        <input type="file" name="logo" accept="image/*" class="form-control pb-0" id="id_logo">
+        <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+    </form>
+</div>
+    <div class="col-2 p-4">
+        <img src="/media/{{ user.trip.logo }}" style="height:250px; width:100%"/>
+    </div>
+</div>
+
+
+
+{% endblock %}

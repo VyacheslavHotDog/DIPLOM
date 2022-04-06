@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row d-flex justify-content-center">
+    <div class="col-4">
+
+    <form action="/addtrip" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="id_header">Заголовок:</label>
+        <input type="text" name="header" maxlength="100" class="form-control pb-0" required="" id="id_header">
+        <label for="id_description">Описание:</label>
+        <input type="text" name="description" maxlength="1000" class="form-control pb-0" required=""
+               id="id_description">
+        <label for="id_dateBegin">Дата начала поездки:</label>
+        <input type="date" name="dateBegin" class="form-control pb-0" required="" id="id_dateBegin">
+        <label for="id_dateEnd">Дата окончания поездки:</label>
+        <input type="date" name="dateEnd" class="form-control pb-0" required="" id="id_dateEnd">
+        <label for="id_country">Страна:</label>
+        <input type="text" name="country" maxlength="100" class="form-control pb-0" required="" id="id_country">
+        <label>Категория:</label>
+        <select class="form-select" name="category" aria-label="Пример выбора по умолчанию" required>
+            <option value="">Откройте это меню выбора</option>
+            <option value="1">Пляжный отдых</option>
+            <option value="2">Экскурсии</option>
+            <option value="3">Походы и экспедиции</option>
+            <option value="4">Круизы</option>
+        </select>
+        <label for="id_logo">Заставка:</label>
+        <input type="file" name="logo" accept="image/*" class="form-control pb-0" required="" id="id_logo">
+        <button type="submit" class="btn btn-primary">ADD</button>
+    </form>
+</div>
+</div>
+
+
+
+{% endblock %}

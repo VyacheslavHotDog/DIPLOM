@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container ">
+
+    <div class="row m-3">
+        <div class="col-8 mr-4">
+            <div class="row">
+                <div class="col-6">
+                    <img class="card-img-top" src="/media/{{trip.logo}}" alt="Card image cap"
+                         style="height:300px; width:100%">
+                </div>
+                <div class="col-5">
+                    <div class="card">
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{trip.header}}</h5>
+                            <p class="card-text">{{trip.description}}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Страна: {{trip.country}}</li>
+                            <li class="list-group-item">Даты: {{trip.dateBegin}} - {{trip.dateEnd}}</li>
+                            <li class="list-group-item">Категория:
+                                {% if trip.category == 1 %}
+                                Пляжный отдых
+                                {% elif trip.category == 2 %}
+                                Экскурсии
+                                {% elif trip.category == 3 %}
+                                Походы и экспедиции
+                                {% elif trip.category == 4 %}
+                                Круизы
+                                {% endif %}
+                            </li>
+                        </ul>
+                        <div class="card-body p-0">
+                            <a href="{% url 'editTrip' %}" class="btn btn-primary d-block">
+                                Редактировать
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-3">
+            <div class="card">
+                <img class="card-img-top" height="320px" src="/media/{{trip.userId.avatar}}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{trip.userId.first_name}} {{trip.userId.last_name}} {{trip.userId.age}}</h5>
+                    <p class="card-text">О себе: {{trip.userId.about}}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <!--                    <li class="list-group-item">{{trip.userId.about}}</li>-->
+                    <li class="list-group-item">Страна: {{trip.userId.country}}</li>
+                    <li class="list-group-item">Город: {{trip.userId.city}}</li>
+                    <li class="list-group-item">Почта: {{trip.userId.email}}</li>
+                    <div class="d-flex">
+                        <p class="mt-2 ms-3">Социальные сети:</p>
+                        {% if host.vk %}
+                        <a href="{{host.vk}}">
+                            <img class="card-img-top m-1" width="35px" height="35px" src="/media/logo/vk.png"
+                                 alt="Card image cap">
+                        </a>
+                        {% else %}
+                        <a>
+                            <img class="card-img-top m-1" width="35px" height="35px" src="/media/logo/vk-black.png"
+                                 alt="Card image cap">
+                        </a>
+                        {% endif %}
+                        {% if host.telegram %}
+                        <a href="{{host.telegram}}">
+                            <img class="card-img-top m-1" width="35px" height="35px" src="/media/logo/tg.png"
+                                 alt="Card image cap">
+                        </a>
+                        {% else %}
+                        <a>
+                            <img class="card-img-top m-1" width="35px" height="35px" src="/media/logo/tg-black.png"
+                                 alt="Card image cap">
+                        </a>
+                        {% endif %}
+                    </div>
+                </ul>
+                {% if trip.userId.id != user.id %}
+                <div class="card-body">
+
+                    <form method="post" action="{% url 'firstMessage' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{trip.userId.id}}" name="receiver">
+                        <textarea rows="3" class="d-block from-control" style="width:100%" name="content"></textarea>
+                        <button type="submit" class="btn btn-primary d-block mt-2">Отправить</button>
+                    </form>
+
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

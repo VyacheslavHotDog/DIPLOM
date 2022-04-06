@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<main role="main">
+    <div class="album bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mt-3  mb-3">
+                    <h3>Попутчики</h3>
+                    <form method="get" class="d-flex">
+                        <div class="d-flex">
+                            <input class="form-control" placeholder="Куда летим"
+                                                         value="{{formData.country}}" name="country">
+                            <input class="form-control" placeholder="Когда летим" name="date">
+                             <select class="form-select" name="category" aria-label="Пример выбора по умолчанию">
+                                <option value="">Категория</option>
+                                <option value="1" {% if formData.category == '1' %} selected {% endif %}>Пляжный отдых</option>
+                                <option value="2" {% if formData.category == '2' %} selected {% endif %}>Экскурсии</option>
+                                <option value="3" {% if formData.category == '3' %} selected {% endif %}>Походы и экспедиции</option>
+                                <option value="4" {% if formData.category == '4' %} selected {% endif %}>Круизы</option>
+                            </select>
+                            <select class="form-select" name="gender" aria-label="Пример выбора по умолчанию">
+                                <option value="">Пол попутчика</option>
+                                <option value="0"  {% if formData.gender == '0' %} selected {% endif %}>Мужской</option>
+                                <option value="1" {% if formData.gender == '1' %} selected {% endif %}>Женский</option>
+                            </select>
+                            <select class="form-select" name="age" aria-label="Пример выбора по умолчанию">
+                                <option value="">Возраст попутчика</option>
+                                <option value="0" {% if formData.age == '0' %} selected {% endif %}>18-25</option>
+                                <option value="1" {% if formData.age == '1' %} selected {% endif %}>25-40</option>
+                                <option value="2" {% if formData.age == '2' %} selected {% endif %}>40+</option>
+                            </select>
+                        </div>
+                        <button class="btn border" type="submit" >Выбрать</button>
+                            <a href="/trips" class="btn btn-danger" style="width:150px" type="submit">Очистить</a>
+
+                    </form>
+                    {% if user.trip_set.count == 0 %}
+                    <h4>У вас еще нет своего путешествия</h4>
+                    <a href="{% url 'addtrip' %}">
+                       <button class="btn btn-primary">Добавить поездку</button>
+                    </a>
+
+                    {% endif %}
+                </div>
+                {% for trip in trips %}
+
+                <div class="col-md-3">
+                    <div class="card mb-4 shadow-sm" style="height:390px">
+                        <a href="/trips/{{trip.id}}">
+                                                    <img src="{{ MEDIA_URL }}{{ trip.logo }}" style="height:300px; width:100%"/>
+                        </a>
+                        <div class="card-body">
+                            <p class="card-text">{{trip.description}}</p>
+                            <div class="d-block">
+                                <div class="btn-group d-flex justify-content-around">
+                                </div>
+                                <div class="d-flex justify-content-center"><small class="text-muted">{{trip.dateBegin}}
+                                    - {{trip.dateEnd}}</small></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if tripsCount == 0 %}
+                <h3>Ничего не найдено</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

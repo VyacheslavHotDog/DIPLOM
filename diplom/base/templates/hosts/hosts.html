@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<main role="main">
+    <div class="album bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 mt-3  mb-3">
+                    <h2>filters</h2>
+                    <form method="get" class="d-flex">
+                        <div class="d-flex"><input class="form-control" placeholder="страна"
+                                                   value="{{formData.country}}" name="country">
+                            <input class="form-control" value="{{formData.city}}" placeholder="город" name="city">
+                            <input class="form-control" placeholder="количество гостей" type="number" max="10"
+                                   value="{{formData.guestCount}}" name="guestCount">
+                            <select class="form-select" name="gender" aria-label="Пример выбора по умолчанию">
+                                <option value="">Пол принимающего</option>
+                                <option value="0"  {% if formData.gender == '0' %} selected {% endif %}>Мужской</option>
+                                <option value="1" {% if formData.gender == '1' %} selected {% endif %}>Женский</option>
+                            </select>
+                        </div>
+                        <button class="btn" type="submit">Выбрать</button>
+                        <a href="/hosts" class="btn btn-danger" style="width:150px" type="submit">Очистить</a>
+
+                    </form>
+                </div>
+                {% for host in hosts %}
+
+                <div class="col-md-3">
+                    <div class="card mb-4 shadow-sm" style="min-height:390px">
+                        <div class="card-body">
+                            <a href="hosts/{{host.id}}">
+                                <img class="d-block w-100" style="height:300px" src="media/{{host.avatar}}"
+                                     alt="First slide">
+                            </a>
+                            <p class="card-text">{{host.first_name}} {{host.last_name}} {{host.age}}</p>
+                            <p>{{host.about}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if hosts.count == 0 %}
+                <h3>Ничего не найдено</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

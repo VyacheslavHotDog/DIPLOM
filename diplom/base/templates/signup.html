@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="id_username">Логин:</label>
+                <input type="text" name="username" maxlength="150" autofocus="" class="form-control" required=""
+                       id="id_username">
+                <div class="row">
+                    <div class="col-sm-6 col-12">
+                        <label for="id_first_name">Имя:</label>
+                        <input type="text" name="first_name" maxlength="150" class="form-control" id="id_first_name">
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <label for="id_last_name">Фамилия:</label>
+
+                        <input type="text" name="last_name" maxlength="150" class="form-control" id="id_last_name">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-12">
+                        <label for="id_age">Email:</label>
+                        <input type="text" name="email" class="form-control" required="" id="id_email">
+
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <label for="id_age">Возраст:</label>
+                        <input type="number" name="age" class="form-control" required="" id="id_age">
+
+                    </div>
+
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 col-12">
+                        <label for="id_country">Страна:</label>
+                        <input type="text" name="country" maxlength="100" class="form-control" required=""
+                               id="id_country">
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <label for="id_avatar">Аватар:</label>
+                        <input type="file" name="avatar" accept="image/*" class="form-control" required=""
+                               id="id_avatar">
+                    </div>
+                    <div class="col-sm-6 col-12">
+                        <label for="id_avatar">Город:</label>
+                        <input type="text" name="city" maxlength="100" class="form-control" required=""
+                               id="id_city">
+                    </div>
+                                        <div class="col-sm-6 col-12">
+                        <label>Пол:</label>
+                        <div class="d-flex justify-content-around mt-1">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" value="1"
+                                       id="flexRadioDefault1"/>
+                                <label class="form-check-label" for="flexRadioDefault1">Женщина</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2"
+                                       value="0"
+                                       checked/>
+                                <label class="form-check-label" for="flexRadioDefault2">Мужчина</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <label for="id_about">Расскажите о себе:</label>
+                <input type="text" name="about" maxlength="1000" class="form-control" required="" id="id_about">
+                <label for="id_password1">Пароль:</label>
+                <input type="password" name="password1" autocomplete="new-password" class="form-control" required=""
+                       id="id_password1" aria-autocomplete="list">
+                <label for="id_password2">Подтверждение пароля:</label>
+                <input type="password" name="password2" autocomplete="new-password" class="form-control" required=""
+                       id="id_password2">
+
+                <br>
+                <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
