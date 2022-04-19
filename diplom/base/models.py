@@ -15,6 +15,23 @@ class Trip(models.Model):
     logo = models.ImageField(upload_to='images')
     userId = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
+    def getTrips(self, request):
+        age_table = [[0, 25], [25, 40], [40, 100]]
+        trips = Trip.objects.all()
+        data = {}
+        if request.GET:
+            data = request.GET
+            if data['country']:
+                trips = trips.filter(country__icontains=data['country'])
+            if data['category']:
+                trips = trips.filter(category=data['category'])
+            if data['gender']:
+                trips = trips.filter(userId__gender=data['gender'])
+            if data['age']:
+                trips = trips.filter(userId__age__gte=age_table[int(data['age'])][0],
+                                     userId__age__lte=age_table[int(data['age'])][1])
+        return trips, data
+
 
 class Message(models.Model):
     """ Путешествие """
@@ -31,6 +48,24 @@ class House(models.Model):
     guestCount = models.IntegerField()
     userId = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
+    def addHouse(self, request):
+        data = request.POST
+        house = House.objects.create(address=data['address'], description=data['description'],
+                                     guestCount=data['guestCount'], userId=request.user)
+        for i in range(3):
+            if request.FILES.get('img{}'.format(i), False):
+                HouseImages.objects.create(house=house, image=request.FILES['img{}'.format(i)])
+
+    def editHouse(self, request):
+        data = request.POST
+        house = House.objects.get(userId=request.user)
+        house.address = data['address']
+        house.description = data['description']
+        house.guestCount = data['guestCount']
+        for i in range(3):
+            if request.FILES.get('img{}'.format(i), False):
+                HouseImages.objects.create(house=house, image=request.FILES['img{}'.format(i)])
+        house.save()
 
 class HouseImages(models.Model):
     """ Изображения """

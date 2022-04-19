@@ -15,42 +15,16 @@ def main(request):
 
 
 def hosts(request):
-    hosts = CustomUser.objects.filter(house__isnull=False)
-    formData = {}
-    if request.GET:
-        data = request.GET
-        if data['city']:
-            hosts = hosts.filter(city__icontains=request.GET['city'])
-        if data['country']:
-            hosts = hosts.filter(country__icontains=request.GET['country'])
-        if data['guestCount']:
-            hosts = hosts.filter(house__guestCount__lte=request.GET['guestCount'])
-        if data['gender']:
-            hosts = hosts.filter(gender=request.GET['gender'])
-        formData = request.GET
+    hosts, formData = CustomUser().getHosts(request)
     return render(request, "hosts/hosts.html",
                   {'hosts': hosts, 'formData': formData, 'MEDIA_URL': settings.MEDIA_URL[1:]})
 
 
 def trips(request):
-    age_table = [[0, 25], [25, 40], [40, 100]]
-    trips = Trip.objects.all()
-    data = {}
-    if request.GET:
-        data = request.GET
-        # if data['city']:
-        #     trips = trips.filter(city__icontains=request.GET['city'])
-        if data['country']:
-            trips = trips.filter(country__icontains=data['country'])
-        if data['category']:
-            trips = trips.filter(category=data['category'])
-        if data['gender']:
-            trips = trips.filter(userId__gender=data['gender'])
-        if data['age']:
-            trips = trips.filter(userId__age__gte=age_table[int(data['age'])][0], userId__age__lte=age_table[int(data['age'])][1])
+    trips, formData = Trip().getTrips(request)
     tripsCount = len(trips)
     return render(request, "trips/trips.html",
-                  {'trips': trips, 'tripsCount': tripsCount,'formData': data, 'MEDIA_URL': settings.MEDIA_URL[1:]})
+                  {'trips': trips, 'tripsCount': tripsCount, 'formData': formData, 'MEDIA_URL': settings.MEDIA_URL[1:]})
 
 
 def messages(request):
@@ -81,19 +55,7 @@ def load_messages(request):
 
 def profile(request):
     if request.method == 'POST':
-        user = CustomUser.objects.get(id=request.user.id)
-        user.first_name = request.POST['first_name']
-        user.last_name = request.POST['last_name']
-        user.age = request.POST['age']
-        user.gender = request.POST['gender']
-        user.about = request.POST['about']
-        user.email = request.POST['email']
-        if request.FILES.get('avatar', False):
-            user.avatar.delete(save=True)
-            user.avatar = request.FILES['avatar']
-        user.country = request.POST['country']
-        user.city = request.POST['city']
-        user.save()
+        CustomUser().editUser(request)
         return redirect('profile')
     trips = Trip.objects.filter(userId=request.user.id)
     try:
@@ -135,12 +97,7 @@ def deleteTrip(request):
 
 def addHouse(request):
     if request.method == 'POST':
-        data = request.POST
-        house = House.objects.create(address=data['address'], description=data['description'],
-                                     guestCount=data['guestCount'], userId=request.user)
-        for i in range(3):
-            if request.FILES.get('img{}'.format(i), False):
-                houseImg = HouseImages.objects.create(house=house, image=request.FILES['img{}'.format(i)])
+        House().addHouse(request)
         return redirect('profile')
     return render(request, 'hosts/addHouse.html')
 
@@ -172,15 +129,7 @@ def editTrip(request):
 
 def editHouse(request):
     if request.method == 'POST':
-        data = request.POST
-        house = House.objects.get(userId=request.user)
-        house.address = data['address']
-        house.description = data['description']
-        house.guestCount = data['guestCount']
-        for i in range(3):
-            if request.FILES.get('img{}'.format(i), False):
-                HouseImages.objects.create(house=house, image=request.FILES['img{}'.format(i)])
-        house.save()
+        House().editHouse(request)
         return redirect('editHouse')
     else:
         return render(request, 'hosts/editHouse.html')

@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 from base.views import *
 from users.views import *
-import debug_toolbar
 from django.conf.urls.static import static
 from django.conf import settings
 

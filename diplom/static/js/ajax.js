@@ -21,9 +21,12 @@ $('.inbox_chat').click(function (event) {
         form.classList.toggle('active_chat')
         old_form = form
          $('.msg_history').empty();
+                       console.log($('#currentUserId').val())
        for(let i = 0; i < answer.length; i++) {
        var newDate = new Date(answer[i]["fields"]["date"])
-       if (answer[i]['fields']['author'] == $('#userId').val()){
+//       console.log(answer[i]['fields']['author'])
+
+       if (answer[i]['fields']['author'] != $('#currentUserId').val()){
           let incoming = '<div class="incoming_msg"><div class="received_msg"><div class="received_withd_msg"><p>' +  answer[i]["fields"]["content"] + '</p><span class="time_date">' +  newDate.toDateString() + '</span></div></div></div>'
           $('.msg_history').append(incoming);
        }

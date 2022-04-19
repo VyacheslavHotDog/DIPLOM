@@ -6,7 +6,7 @@
             console.log('Data:', data)
 
             if(data.type === 'chat'){
-                 if (data.receiver == $('#currentUser').val()){
+                 if (data.author != $('#currentUserId').val()){
                   let incoming = '<div class="incoming_msg"><div class="received_msg"><div class="received_withd_msg"><p>' +  data.content + '</p><span class="time_date"> 11:01 AM    |    June 9</span></div></div></div>'
 
                           $('.msg_history').append(incoming);
