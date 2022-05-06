@@ -5,11 +5,11 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     """ User """
 
-    about = models.CharField(max_length=1000)
-    age = models.IntegerField()
-    gender = models.BooleanField()
-    country = models.CharField(max_length=100)
-    avatar = models.ImageField(upload_to='images')
+    about = models.CharField(max_length=1000, null=True)
+    age = models.IntegerField(null=True)
+    gender = models.BooleanField(null=True)
+    country = models.CharField(max_length=100, null=True)
+    avatar = models.ImageField(upload_to='images', null=True)
     city = models.CharField(max_length=50, null=True)
     vk = models.CharField(max_length=200, null=True)
     telegram = models.CharField(max_length=200, null=True)

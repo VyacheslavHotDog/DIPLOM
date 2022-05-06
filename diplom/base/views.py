@@ -7,6 +7,7 @@ from .models import *
 from django.db.models import Q
 from django.http import JsonResponse
 from django.core import serializers
+from django.core.mail import send_mail
 
 
 def main(request):
@@ -55,6 +56,7 @@ def load_messages(request):
 
 def profile(request):
     if request.method == 'POST':
+        send_mail('Тема', 'Тело письма', settings.EMAIL_HOST_USER, ['annaburl1971@mail.ru'])
         CustomUser().editUser(request)
         return redirect('profile')
     trips = Trip.objects.filter(userId=request.user.id)

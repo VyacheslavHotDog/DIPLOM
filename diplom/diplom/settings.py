@@ -157,3 +157,18 @@ CHANNEL_LAYERS = {
         'BACKEND':'channels.layers.InMemoryChannelLayer'
     }
 }
+
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = "tihon4326@mail.ru"
+EMAIL_HOST_PASSWORD = "cfdtkbkf37"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+
+# celery
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+

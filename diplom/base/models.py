@@ -5,15 +5,15 @@ from users.models import CustomUser
 class Trip(models.Model):
     """ Путешествие """
     header = models.CharField(max_length=100, null=True)
-    searchingGender = models.IntegerField(max_length=10, null=True)
+    searchingGender = models.IntegerField(null=True)
     searchingAge = models.IntegerField(null=True)
     description = models.CharField(max_length=1000)
     dateEnd = models.DateField()
     dateBegin = models.DateField()
     country = models.CharField(max_length=100)
-    category = models.IntegerField(max_length=100)
-    logo = models.ImageField(upload_to='images')
-    userId = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    category = models.IntegerField()
+    logo = models.ImageField(upload_to='images', null=True)
+    userId = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def getTrips(self, request):
         age_table = [[0, 25], [25, 40], [40, 100]]
@@ -46,7 +46,7 @@ class House(models.Model):
     address = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     guestCount = models.IntegerField()
-    userId = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    userId = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def addHouse(self, request):
         data = request.POST
@@ -66,6 +66,7 @@ class House(models.Model):
             if request.FILES.get('img{}'.format(i), False):
                 HouseImages.objects.create(house=house, image=request.FILES['img{}'.format(i)])
         house.save()
+
 
 class HouseImages(models.Model):
     """ Изображения """
